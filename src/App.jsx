@@ -1,17 +1,12 @@
-import useProducts from  './hooks/useProduct'
-import ProductsPage from './pages/ProductsPage';
+import { Routes, Route } from "react-router-dom";
+import ProductsPage from "./pages/ProductsPage";
+import ProductDetailsPage from "./pages/ProductDetailsPage";
 
-function App() {
-  const { products, loading, error } = useProducts();
-
-  if (loading) return <p>Carregando...</p>;
-  if (error) return <p>Deu ruim: {error.message}</p>;
-
+export default function App() {
   return (
-    <div>
-      <ProductsPage/>
-    </div>
+    <Routes>
+      <Route path="/" element={<ProductsPage />} />
+      <Route path="/product/:id" element={<ProductDetailsPage />} />
+    </Routes>
   );
 }
-
-export default App;
