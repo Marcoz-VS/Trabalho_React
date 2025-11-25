@@ -5,6 +5,7 @@ export default function ProductDetails({ product, onAddToCart }) {
   const navigate = useNavigate();
 
   const handleBuyNow = () => {
+    // Adiciona o produto ao carrinho
     onAddToCart(product);
     // Navega para o checkout
     navigate("/checkout");

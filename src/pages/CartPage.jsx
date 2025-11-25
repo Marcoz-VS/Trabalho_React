@@ -44,11 +44,11 @@ export default function CartPage() {
           <p>Subtotal: R${(item.price * item.quantity).toFixed(2)}</p>
 
           <div style={{ display: "flex", gap: "10px" }}>
-            <button onClick={() => addToCart(item)}>
+            <button style={{ color: 'white'}} onClick={() => addToCart(item)}>
               + Adicionar mais 1
             </button>
 
-            <button onClick={() => removeFromCart(item.id)}>
+            <button style={{ color: 'white'}} onClick={() => removeFromCart(item.id)}>
               - Remover 1
             </button>
           </div>
@@ -58,7 +58,7 @@ export default function CartPage() {
       <h2>Total geral: R${total.toFixed(2)}</h2>
 
       {items.length > 0 && (
-        <button onClick={() => navigate("/checkout")}>
+        <button style={{ color: 'white'}} onClick={() => navigate("/checkout")}>
           Finalizar compra
         </button>
       )}
