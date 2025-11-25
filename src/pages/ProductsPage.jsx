@@ -19,7 +19,6 @@ export default function ProductsPage() {
 
   return (
     <div>
-      {/* Header com botões de Login e Register */}
       <header style={{
  
       }}>
@@ -40,8 +39,7 @@ export default function ProductsPage() {
           </Link>
         </div>
       </header>
-
-      {/* Conteúdo principal */}
+      
       <div style={{
         display: "flex",
         flexWrap: "wrap",
