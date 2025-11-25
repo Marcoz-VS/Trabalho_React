@@ -9,28 +9,63 @@ const initialState = {
 
 function cartReducer(state, action) {
   switch (action.type) {
-    case "ADD":
-      return { ...state, items: [...state.items, action.payload] };
+    case "ADD": {
+      const product = action.payload;
+      const existing = state.items.find(i => i.id === product.id);
+    
+      if (existing) {
+        return {
+          ...state,
+          items: state.items.map(i =>
+            i.id === product.id
+              ? { ...i, quantity: i.quantity + 1 }
+              : i
+          )
+        };
+      }
 
-    case "REMOVE":
       return {
         ...state,
-        items: state.items.filter(i => i.id !== action.payload)
+        items: [...state.items, { ...product, quantity: 1 }]
       };
+    }
+
+    case "REMOVE": {
+      const id = action.payload;
+      const existing = state.items.find(i => i.id === id);
+
+      if (!existing) return state;
+
+      if (existing.quantity > 1) {
+        return {
+          ...state,
+          items: state.items.map(i =>
+            i.id === id
+              ? { ...i, quantity: i.quantity - 1 }
+              : i
+          )
+        };
+      }
+
+      return {
+        ...state,
+        items: state.items.filter(i => i.id !== id)
+      };
+    }
 
     default:
       return state;
   }
 }
 
-export function CartProvider({ children }) {
+export default function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
 
-  const addToCart = (product) => {
+  const addToCart = product => {
     dispatch({ type: "ADD", payload: product });
   };
 
-  const removeFromCart = (id) => {
+  const removeFromCart = id => {
     dispatch({ type: "REMOVE", payload: id });
   };
 

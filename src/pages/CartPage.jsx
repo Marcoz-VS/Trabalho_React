@@ -1,32 +1,61 @@
-import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { Link } from "react-router-dom";
 
 export default function CartPage() {
-  const { items, removeFromCart } = useCart();
+  const { items, addToCart, removeFromCart } = useCart();
 
-  const total = items.reduce((acc, p) => acc + p.price, 0);
+  const total = items.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
-  if (items.length === 0)
-    return <p>Seu carrinho está vazio.</p>;
+  if (items.length === 0) {
+    return (
+      <div style={{ padding: "20px" }}>
+        <h1>Carrinho</h1>
+        <p>Seu carrinho está vazio.</p>
+        <Link to="/">Voltar para os produtos</Link>
+      </div>
+    );
+  }
 
   return (
-    <div>
+    <div style={{ padding: "20px" }}>
       <h1>Carrinho</h1>
-      <h3>Total: R$ {total.toFixed(2)}</h3>
 
-      <ul>
-        {items.map(item => (
-          <li key={item.id} style={{ marginBottom: "20px" }}>
-            <Link to={`/product/${item.id}`}>
-              {item.title} - R$ {item.price}
-            </Link>
+      {items.map(item => (
+        <div
+          key={item.id}
+          style={{
+            border: "1px solid #ccc",
+            padding: "10px",
+            marginBottom: "15px",
+            borderRadius: "5px"
+          }}
+        >
+          <Link to={`/product/${item.id}`}>
+            <h3>{item.title}</h3>
+          </Link>
+
+          <p>Quantidade: {item.quantity}</p>
+          <p>Preço unitário: R${item.price.toFixed(2)}</p>
+          <p>Subtotal: R${(item.price * item.quantity).toFixed(2)}</p>
+
+          <div style={{ display: "flex", gap: "10px" }}>
+            <button onClick={() => addToCart(item)}>
+              + Adicionar mais 1
+            </button>
 
             <button onClick={() => removeFromCart(item.id)}>
-              Remover
+              - Remover 1
             </button>
-          </li>
-        ))}
-      </ul>
+          </div>
+        </div>
+      ))}
+
+      <h2>Total geral: R${total.toFixed(2)}</h2>
+
+      <Link to="/">Voltar para os produtos</Link>
     </div>
   );
 }
