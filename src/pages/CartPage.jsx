@@ -1,8 +1,10 @@
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function CartPage() {
   const { items, addToCart, removeFromCart } = useCart();
+  const navigate = useNavigate();
 
   const total = items.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -55,6 +57,11 @@ export default function CartPage() {
 
       <h2>Total geral: R${total.toFixed(2)}</h2>
 
+      {items.length > 0 && (
+        <button onClick={() => navigate("/checkout")}>
+          Finalizar compra
+        </button>
+      )}
       <Link to="/">Voltar para os produtos</Link>
     </div>
   );

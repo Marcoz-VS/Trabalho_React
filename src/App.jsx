@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import CartPage from "./pages/CartPage";
 import { useCart } from "./context/CartContext";
+import CheckoutPage from "./pages/CheckoutPage";
 
 export default function App() {
   const { items } = useCart();
@@ -19,9 +20,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<ProductsPage />} />
         <Route path="/product/:id" element={<ProductDetailsPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
       </Routes>
     </div>
   );
