@@ -12,7 +12,7 @@ function cartReducer(state, action) {
     case "ADD": {
       const product = action.payload;
       const existing = state.items.find(i => i.id === product.id);
-    
+
       if (existing) {
         return {
           ...state,
@@ -53,6 +53,13 @@ function cartReducer(state, action) {
       };
     }
 
+    case "CLEAR": {
+      return {
+        ...state,
+        items: []
+      };
+    }
+
     default:
       return state;
   }
@@ -69,12 +76,17 @@ export default function CartProvider({ children }) {
     dispatch({ type: "REMOVE", payload: id });
   };
 
+  const clearCart = () => {
+    dispatch({ type: "CLEAR" });
+  };
+
   return (
     <CartContext.Provider
       value={{
         items: state.items,
         addToCart,
-        removeFromCart
+        removeFromCart,
+        clearCart
       }}
     >
       {children}

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
-import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import PixPayment from "./PixPayment";
 import CardPayment from "./CardPayment";
@@ -8,39 +8,41 @@ import CardInstallments from "./CardInstallments";
 
 export default function CheckoutPage() {
   const { items } = useCart();
-  const location = useLocation();
+  const [method, setMethod] = useState("");
 
-  // Produto vindo do "Comprar Agora"
-  const directProduct = location.state?.product || null;
-
-  // Se tiver produto direto, ignora o carrinho nesta página
-  const list = directProduct
-    ? [{ ...directProduct, quantity: 1 }]
-    : items;
-
-  const total = list.reduce((acc, item) =>
+  const total = items.reduce((acc, item) =>
     acc + item.price * item.quantity, 0
   );
 
-  const [method, setMethod] = useState("");
-
-  if (list.length === 0) {
-    return <p>Seu carrinho está vazio.</p>;
+  if (items.length === 0) {
+    return (
+      <div style={{ padding: "20px" }}>
+        <h1>Checkout</h1>
+        <p>Seu carrinho está vazio.</p>
+        <Link to="/">Voltar para os produtos</Link>
+      </div>
+    );
   }
 
   return (
     <div style={{ padding: "20px" }}>
       <h1>Pagamento</h1>
 
-      {directProduct && (
-        <p style={{ color: "#666" }}>
-          Compra direta: <strong>{directProduct.name}</strong>
-        </p>
-      )}
+      <div style={{ marginBottom: "20px" }}>
+        <h3>Itens no carrinho:</h3>
+        {items.map(item => (
+          <div key={item.id} style={{ marginBottom: "10px", padding: "10px", border: "1px solid #ddd", borderRadius: "5px" }}>
+            <p><strong>{item.title}</strong></p>
+            <p>Quantidade: {item.quantity}</p>
+            <p>Preço unitário: R${item.price.toFixed(2)}</p>
+            <p>Subtotal: R${(item.price * item.quantity).toFixed(2)}</p>
+          </div>
+        ))}
+      </div>
 
       <h3>Total: R${total.toFixed(2)}</h3>
 
-      <select value={method} onChange={(e) => setMethod(e.target.value)}>
+      <select value={method} onChange={(e) => setMethod(e.target.value)} style={{ marginTop: "10px", padding: "8px" }}>
         <option value="">Selecione o método</option>
         <option value="pix">PIX (à vista)</option>
         <option value="card">Cartão (à vista)</option>
@@ -52,6 +54,10 @@ export default function CheckoutPage() {
         {method === "card" && <CardPayment total={total} />}
         {method === "installments" && <CardInstallments total={total} />}
       </div>
+
+      <Link to="/cart" style={{ display: "inline-block", marginTop: "20px" }}>
+        Voltar ao carrinho
+      </Link>
     </div>
   );
 }
