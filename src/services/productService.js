@@ -5,7 +5,7 @@ export async function getAllProducts() {
   return res.data;
 }
 
-export async function getByCategory(category) {
-  const res = await api.get(`/products/category/${category}`);
+export async function getProduct(id) {
+  const res = await api.get(`/products/${id}`);
   return res.data;
 }
