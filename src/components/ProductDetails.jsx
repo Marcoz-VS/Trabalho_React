@@ -22,9 +22,15 @@ export default function ProductDetails({ product, onAddToCart }) {
         </p>
 
         <GoBack/>
-        <button onClick={() => onAddToCart(product)}>Adicionar ao carrinho</button>
+        <button 
+        onClick={() => onAddToCart(product)} 
+        style={{ color: 'white'}}
+        >
+            Adicionar ao carrinho
+        </button>
         <button
             onClick={() => navigate("/checkout", { state: { product } })}
+            style={{ color: 'white'}}
         >
             Comprar Agora
         </button>

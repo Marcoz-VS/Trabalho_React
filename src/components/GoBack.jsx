@@ -4,7 +4,7 @@ export default function GoBack({ label = "Voltar" }) {
   const navigate = useNavigate();
 
   return (
-    <button onClick={() => navigate(-1)}>
+    <button onClick={() => navigate(-1)} style={{ color: 'white'}}>
       {label}
     </button>
   );
