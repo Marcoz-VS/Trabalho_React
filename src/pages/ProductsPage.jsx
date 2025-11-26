@@ -28,7 +28,7 @@ export default function ProductsPage() {
   return (
     <>
       {/* HEADER FIXO – igual HiFashion */}
-      <header className="fixed top-0 left-0 right-0 bg-white z-50 shadow-sm border-b">
+      <header className="sticky top-0 left-0 right-0 bg-white z-50 shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             

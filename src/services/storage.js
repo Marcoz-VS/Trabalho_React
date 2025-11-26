@@ -13,3 +13,15 @@ export function addUser(user) {
   list.push(user);
   saveUsers(list);
 }
+
+export function removeUser(id) {
+  const list = getUser();
+  const filtered = list.filter((user) => user !== id);
+  saveUsers(filtered);
+}
+
+export function getUserById(id) {
+  const list = getUsers();
+  return list.find((user) => user.id  == id);
+  saveUsers(list);
+}
