@@ -52,6 +52,9 @@ export default function ProductsPage() {
                 className="w-9 h-9 rounded-full bg-gray-200 hover:bg-gray-300 transition"
                 aria-label="Perfil"
               />
+            <Link to="/cart" className="relative" aria-label="Carrinho">
+              <i className="pi pi-shopping-cart text-black text-2xl cursor-pointer hover:text-gray-700 transition"></i>
+            </Link>
 
               {/* CARRINHO – bonitinho e com número real */}
               <Link to="/cart" className="relative group" aria-label="Carrinho">

@@ -18,10 +18,11 @@ export default function ProductCard({ product }) {
 
   return (
     <div style={{
-      border: "1px solid #ccc",
-      padding: "16px",
+      border: "2px solid #d6d6d6c4",
+      padding: "20px",
       borderRadius: "8px",
-      width: "250px",
+      width: "350px",
+
       display: "flex",
       flexDirection: "column"
     }}>
