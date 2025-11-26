@@ -7,6 +7,7 @@ import CartPage from "./pages/CartPage";
 import { useCart } from "./context/CartContext";
 import CheckoutPage from "./pages/CheckoutPage";
 import PanelAdministrador from "./pages/PanelAdministrador";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 export default function App() {
   const { items } = useCart();
@@ -26,7 +27,14 @@ export default function App() {
         <Route path="/" element={<ProductsPage />} />
         <Route path="/product/:id" element={<ProductDetailsPage />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route
+          path="/checkout"
+          element={
+            <ProtectedRoute>
+              <CheckoutPage />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

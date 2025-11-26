@@ -3,11 +3,14 @@ import useProducts from "../hooks/useProduct";
 import ProductCard from "../components/ProductCard";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useCart } from "../context/CartContext"; // IMPORTANTE: pega o carrinho real
+import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 
 export default function ProductsPage() {
   const { products, loading } = useProducts();
-  const { items } = useCart(); // ← número real de itens no carrinho
+  const { items } = useCart();
+  const { user, logout } = useAuth();   // ← FALTAVA ISTO
+
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
 
@@ -28,6 +31,7 @@ export default function ProductsPage() {
       <header className="fixed top-0 left-0 right-0 bg-white z-50 shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
+            
             {/* Logo */}
             <Link to="/" className="text-2xl font-bold text-black">
               HiFashion
@@ -46,14 +50,35 @@ export default function ProductsPage() {
 
             {/* Ícones da direita */}
             <div className="flex items-center gap-6">
-              {/* Usuário (pode virar login depois) */}
-              <Link
-                to="/perfil"
-                className="w-9 h-9 rounded-full bg-gray-200 hover:bg-gray-300 transition"
-                aria-label="Perfil"
-              />
 
-              {/* CARRINHO – bonitinho e com número real */}
+              {/* LOGIN ou PERFIL */}
+              {!user ? (
+                <Link
+                  to="/login"
+                  className="px-4 py-2 border border-gray-800 rounded-full text-sm hover:bg-gray-100 transition"
+                >
+                  Login
+                </Link>
+              ) : (
+                <div className="flex items-center gap-4">
+                  <Link
+                    to="/perfil"
+                    className="w-9 h-9 rounded-full bg-gray-200 hover:bg-gray-300 transition flex items-center justify-center text-xs"
+                    aria-label="Perfil"
+                  >
+                    {user.username?.[0]?.toUpperCase()}
+                  </Link>
+
+                  <button
+                    onClick={logout}
+                    className="text-sm px-3 py-2 border border-red-500 text-red-500 rounded-full hover:bg-red-100 transition"
+                  >
+                    Sair
+                  </button>
+                </div>
+              )}
+
+              {/* CARRINHO */}
               <Link to="/cart" className="relative group" aria-label="Carrinho">
                 <svg
                   className="w-9 h-9 text-gray-800 group-hover:text-black transition"
@@ -69,13 +94,13 @@ export default function ProductsPage() {
                   />
                 </svg>
 
-                {/* Bolinha com número de itens (só aparece se tiver algo) */}
                 {items.length > 0 && (
                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-md animate-pulse">
                     {items.length}
                   </span>
                 )}
               </Link>
+
             </div>
           </div>
         </div>
@@ -113,4 +138,4 @@ export default function ProductsPage() {
       </main>
     </>
   );
- }
+}

@@ -1,20 +1,15 @@
-const USER_KEY = 'ecommerce_user';
+const USERS_KEY = "users";
 
-export const getUser = () => {
-  const data = localStorage.getItem(USER_KEY);
-  if (!data) return null;
-  try {
-    return JSON.parse(data);
-  } catch {
-    return null;
-  }
-};
+export function getUsers() {
+  return JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+}
 
-export const setUser = (user) => {
-  if (!user) return;
-  localStorage.setItem(USER_KEY, JSON.stringify(user));
-};
+export function saveUsers(list) {
+  localStorage.setItem(USERS_KEY, JSON.stringify(list));
+}
 
-export const clearUser = () => {
-  localStorage.removeItem(USER_KEY);
-};
+export function addUser(user) {
+  const list = getUsers();
+  list.push(user);
+  saveUsers(list);
+}
