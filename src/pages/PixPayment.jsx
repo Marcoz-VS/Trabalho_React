@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/purity */
 export default function PixPayment({ total }) {
-  const chave = `chave-pix-fake-${Math.random().toString(36).slice(2)}`;
+  const chave = `${Math.random().toString(36).slice(2)}`;
 
   return (
     <div>

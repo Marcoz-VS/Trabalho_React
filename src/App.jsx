@@ -15,6 +15,9 @@ export default function App() {
       <header>
         <Link to="/">Home</Link>
         <Link to="/cart">Carrinho ({items.length})</Link>
+
+        <Link to="/login">Login</Link>
+        <Link to="/register">Registrar</Link>
       </header>
 
       <Routes>
@@ -22,6 +25,9 @@ export default function App() {
         <Route path="/product/:id" element={<ProductDetailsPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </div>
   );
