@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import CartPage from "./pages/CartPage";
 import { useCart } from "./context/CartContext";
 import CheckoutPage from "./pages/CheckoutPage";
+import PanelAdministrador from "./pages/PanelAdministrador";
 
 export default function App() {
   const { items } = useCart();
@@ -18,6 +19,7 @@ export default function App() {
 
         <Link to="/login">Login</Link>
         <Link to="/register">Registrar</Link>
+        <Link to="/panel-administrador">Panel Administrador</Link>
       </header>
 
       <Routes>
@@ -28,6 +30,7 @@ export default function App() {
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/panel-administrador" element={<PanelAdministrador />} />
       </Routes>
     </div>
   );
