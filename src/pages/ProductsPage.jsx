@@ -4,12 +4,20 @@ import ProductCard from "../components/ProductCard";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext"; // IMPORTANTE: pega o carrinho real
+<<<<<<< HEAD
 import { useAuth } from "../context/AuthContext";
+=======
+import { useAuth } from "../context/AuthContext.jsx";
+>>>>>>> 8d632e2a3ecefd7bd61507a14ebac3142a66e83b
 
 export default function ProductsPage() {
   const { products, loading } = useProducts();
   const { items } = useCart(); // ← número real de itens no carrinho
+<<<<<<< HEAD
   const { user, logout } = useAuth();
+=======
+  const { user, logout } = useAuth();   // ← FALTAVA ISTO
+>>>>>>> 8d632e2a3ecefd7bd61507a14ebac3142a66e83b
 
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
