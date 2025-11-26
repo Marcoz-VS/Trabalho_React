@@ -3,21 +3,13 @@ import useProducts from "../hooks/useProduct";
 import ProductCard from "../components/ProductCard";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useCart } from "../context/CartContext"; // IMPORTANTE: pega o carrinho real
-<<<<<<< HEAD
+import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
-=======
-import { useAuth } from "../context/AuthContext.jsx";
->>>>>>> 8d632e2a3ecefd7bd61507a14ebac3142a66e83b
 
 export default function ProductsPage() {
   const { products, loading } = useProducts();
-  const { items } = useCart(); // ← número real de itens no carrinho
-<<<<<<< HEAD
+  const { items } = useCart();
   const { user, logout } = useAuth();
-=======
-  const { user, logout } = useAuth();   // ← FALTAVA ISTO
->>>>>>> 8d632e2a3ecefd7bd61507a14ebac3142a66e83b
 
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
@@ -34,47 +26,29 @@ export default function ProductsPage() {
     .filter((p) => p.title.toLowerCase().includes(search.toLowerCase()));
 
   return (
-  <>
-    {/* HEADER NORMAL (não fixo, rola com a página) */}
-    <header className="bg-white shadow-sm border-b">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link to="/" className="text-3xl font-bold text-black">
-            HiFashion
-          </Link>
-
-          {/* Barra de busca - só aparece no desktop */}
-          <div className="hidden md:block flex-1 max-w-xl mx-10">
-            <input
-              type="text"
-              placeholder="Buscar produtos..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full px-6 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-black transition"
-            />
-          </div>
-
-          {/* Ícones da direita */}
-          <div className="flex items-center gap-8">
-            {/* Perfil */}
-            <Link
-              to="/perfil"
-              className="w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 transition"
-              aria-label="Perfil"
-            />
-
-            {/* Carrinho com contador */}
-            <Link to="/cart" className="relative" aria-label="Carrinho">
-              <i className="pi pi-shopping-cart text-3xl text-black hover:text-gray-700 transition"></i>
-              
-              {/* Bolinha vermelha com número de itens */}
-              {items.length > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center animate-pulse">
-                  {items.length}
-                </span>
-              )}
+    <>
+      {/* HEADER NORMAL (não fixo, rola com a página) */}
+      <header className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-between h-20">
+            {/* Logo */}
+            <Link to="/" className="text-3xl font-bold text-black">
+              HiFashion
             </Link>
+
+            {/* Barra de busca - só aparece no desktop */}
+            <div className="hidden md:block flex-1 max-w-xl mx-10">
+              <input
+                type="text"
+                placeholder="Buscar produtos..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full px-6 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-black transition"
+              />
+            </div>
+
+            {/* Ícones da direita */}
+            <div className="flex items-center gap-8">
               {/* LOGIN ou PERFIL */}
               {!user ? (
                 <Link
@@ -87,7 +61,7 @@ export default function ProductsPage() {
                 <div className="flex items-center gap-4">
                   <Link
                     to="/perfil"
-                    className="w-9 h-9 rounded-full bg-gray-200 hover:bg-gray-300 transition flex items-center justify-center text-xs"
+                    className="w-9 h-9 rounded-full bg-gray-200 hover:bg-gray-300 transition flex items-center justify-center text-xs font-semibold"
                     aria-label="Perfil"
                   >
                     {user.username?.[0]?.toUpperCase()}
@@ -128,22 +102,22 @@ export default function ProductsPage() {
           </div>
         </div>
 
-      {/* Filtro (embaixo do header) */}
-      <div className="border-t bg-white py-4">
-        <div className="max-w-7xl mx-auto px-4 flex justify-center">
-          <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="px-10 py-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:border-black"
-          >
-            <option value="all">Todos</option>
-            <option value="men's clothing">Masculino</option>
-            <option value="women's clothing">Feminino</option>
-            <option value="jewelery">Joias</option>
-          </select>
+        {/* Filtro (embaixo do header) */}
+        <div className="border-t bg-white py-4">
+          <div className="max-w-7xl mx-auto px-4 flex justify-center">
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="px-10 py-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:border-black"
+            >
+              <option value="all">Todos</option>
+              <option value="men's clothing">Masculino</option>
+              <option value="women's clothing">Feminino</option>
+              <option value="jewelery">Joias</option>
+            </select>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
 
       {/* Produtos - começa logo abaixo do header */}
       <main className="pt-12 pb-20 max-w-7xl mx-auto px-4">
@@ -162,4 +136,3 @@ export default function ProductsPage() {
     </>
   );
 }
-
