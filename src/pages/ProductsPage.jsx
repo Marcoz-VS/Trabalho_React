@@ -3,12 +3,12 @@ import useProducts from "../hooks/useProduct";
 import ProductCard from "../components/ProductCard";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../context/CartContext"; // IMPORTANTE: pega o carrinho real
 import { useAuth } from "../context/AuthContext";
 
 export default function ProductsPage() {
   const { products, loading } = useProducts();
-  const { items } = useCart();
+  const { items } = useCart(); // ← número real de itens no carrinho
   const { user, logout } = useAuth();
 
   const [search, setSearch] = useState("");
@@ -26,30 +26,47 @@ export default function ProductsPage() {
     .filter((p) => p.title.toLowerCase().includes(search.toLowerCase()));
 
   return (
-    <>
-      {/* HEADER FIXO – igual HiFashion */}
-      <header className="sticky top-0 left-0 right-0 bg-white z-50 shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            
-            {/* Logo */}
-            <Link to="/" className="text-2xl font-bold text-black">
-              HiFashion
+  <>
+    {/* HEADER NORMAL (não fixo, rola com a página) */}
+    <header className="bg-white shadow-sm border-b">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link to="/" className="text-3xl font-bold text-black">
+            HiFashion
+          </Link>
+
+          {/* Barra de busca - só aparece no desktop */}
+          <div className="hidden md:block flex-1 max-w-xl mx-10">
+            <input
+              type="text"
+              placeholder="Buscar produtos..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full px-6 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-black transition"
+            />
+          </div>
+
+          {/* Ícones da direita */}
+          <div className="flex items-center gap-8">
+            {/* Perfil */}
+            <Link
+              to="/perfil"
+              className="w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 transition"
+              aria-label="Perfil"
+            />
+
+            {/* Carrinho com contador */}
+            <Link to="/cart" className="relative" aria-label="Carrinho">
+              <i className="pi pi-shopping-cart text-3xl text-black hover:text-gray-700 transition"></i>
+              
+              {/* Bolinha vermelha com número de itens */}
+              {items.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center animate-pulse">
+                  {items.length}
+                </span>
+              )}
             </Link>
-
-            {/* Barra de busca (desktop) */}
-            <div className="hidden md:block flex-1 max-w-xl mx-10">
-              <input
-                type="text"
-                placeholder="Buscar produtos..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full px-5 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-black transition text-sm"
-              />
-            </div>
-
-            {/* Ícones da direita */}
-            <div className="flex items-center gap-6">
               {/* LOGIN ou PERFIL */}
               {!user ? (
                 <Link
@@ -103,33 +120,33 @@ export default function ProductsPage() {
           </div>
         </div>
 
-        {/* Filtro */}
-        <div className="border-t bg-white">
-          <div className="max-w-7xl mx-auto px-4 py-3 flex justify-center">
-            <select
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-              className="px-8 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-black"
-            >
-              <option value="all">Todos</option>
-              <option value="men's clothing">Masculino</option>
-              <option value="women's clothing">Feminino</option>
-              <option value="jewelery">Joias</option>
-            </select>
-          </div>
+      {/* Filtro (embaixo do header) */}
+      <div className="border-t bg-white py-4">
+        <div className="max-w-7xl mx-auto px-4 flex justify-center">
+          <select
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="px-10 py-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:border-black"
+          >
+            <option value="all">Todos</option>
+            <option value="men's clothing">Masculino</option>
+            <option value="women's clothing">Feminino</option>
+            <option value="jewelery">Joias</option>
+          </select>
         </div>
-      </header>
+      </div>
+    </header>
 
-      {/* Lista de produtos */}
-      <main className="pt-32 pb-10 max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      {/* Produtos - começa logo abaixo do header */}
+      <main className="pt-12 pb-20 max-w-7xl mx-auto px-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {filtrado.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
 
         {filtrado.length === 0 && (
-          <p className="text-center text-gray-500 py-20 text-lg">
+          <p className="text-center text-gray-600 py-20 text-lg">
             Nenhum produto encontrado
           </p>
         )}
@@ -137,3 +154,4 @@ export default function ProductsPage() {
     </>
   );
 }
+
