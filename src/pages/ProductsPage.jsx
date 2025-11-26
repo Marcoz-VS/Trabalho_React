@@ -56,7 +56,6 @@ export default function ProductsPage() {
               <i className="pi pi-shopping-cart text-black text-2xl cursor-pointer hover:text-gray-700 transition"></i>
             </Link>
 
-              {/* CARRINHO – bonitinho e com número real */}
               <Link to="/cart" className="relative group" aria-label="Carrinho">
                 <svg
                   className="w-9 h-9 text-gray-800 group-hover:text-black transition"
