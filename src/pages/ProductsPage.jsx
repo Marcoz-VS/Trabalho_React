@@ -9,7 +9,7 @@ import { useAuth } from "../context/AuthContext";
 export default function ProductsPage() {
   const { products, loading } = useProducts();
   const { items } = useCart();
-  const { user, logout } = useAuth();   // ← FALTAVA ISTO
+  const { user, logout } = useAuth();
 
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
@@ -50,19 +50,6 @@ export default function ProductsPage() {
 
             {/* Ícones da direita */}
             <div className="flex items-center gap-6">
-<<<<<<< HEAD
-              {/* Usuário (pode virar login depois) */}
-              <Link
-                to="/perfil"
-                className="w-9 h-9 rounded-full bg-gray-200 hover:bg-gray-300 transition"
-                aria-label="Perfil"
-              />
-            <Link to="/cart" className="relative" aria-label="Carrinho">
-              <i className="pi pi-shopping-cart text-black text-2xl cursor-pointer hover:text-gray-700 transition"></i>
-            </Link>
-
-=======
-
               {/* LOGIN ou PERFIL */}
               {!user ? (
                 <Link
@@ -112,8 +99,6 @@ export default function ProductsPage() {
                   </span>
                 )}
               </Link>
-
->>>>>>> 55ba424a62cfcb24f711d1c86b82e1a84b5d1296
             </div>
           </div>
         </div>

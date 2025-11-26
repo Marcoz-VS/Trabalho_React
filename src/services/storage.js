@@ -15,7 +15,7 @@ export function addUser(user) {
 }
 
 export function removeUser(id) {
-  const list = getUser();
+  const list = getUsers();
   const filtered = list.filter((user) => user !== id);
   saveUsers(filtered);
 }
