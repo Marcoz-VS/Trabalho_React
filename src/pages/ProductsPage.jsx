@@ -94,30 +94,6 @@ export default function ProductsPage() {
                 </div>
               )}
 
-              {/* CARRINHO */}
-              <Link to="/cart" className="relative group" aria-label="Carrinho">
-                <svg
-                  className="w-9 h-9 text-gray-800 group-hover:text-black transition"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.8}
-                    d="M3 3h2l.4 2M7.5 13h9l3.5-8H6.5M7.5 13L5.2 5M7.5 13l-1.3 5.2c-.4 1.6 1 3 2.7 3h10.8c1.7 0 3.1-1.4 2.7-3l-1.4-5.6M16.5 21a2 2 0 100-4 2 2 0 000 4zm-9 0a2 2 0 100-4 2 2 0 000 4z"
-                  />
-                </svg>
-
-                {items.length > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-md animate-pulse">
-                    {items.length}
-                  </span>
-                )}
-              </Link>
-
->>>>>>> 55ba424a62cfcb24f711d1c86b82e1a84b5d1296
             </div>
           </div>
         </div>
