@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getUser } from "../services/storage";
+import { getUsers } from "../services/storage";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
+    const { login } = useAuth();
     const [formData, setFormData] = useState({ username: "", password: "" });
     const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -15,22 +17,25 @@ function Login() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const stored = getUser();
-        if (!stored) {
+        const users = getUsers();
+        const found = users.find(u => u.username === formData.username);
+
+        if (!found) {
             setError("Nenhum usuário cadastrado");
             return;
         }
 
-        if (stored.username !== formData.username) {
+        if (found.username !== formData.username) {
             setError("Usuário não encontrado");
             return;
         }
 
-        if (stored.password !== formData.password) {
+        if (found.password !== formData.password) {
             setError("Senha incorreta");
             return;
         }
 
+        login(found);
         navigate("/");
     };
 

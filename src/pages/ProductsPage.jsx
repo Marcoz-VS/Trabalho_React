@@ -3,11 +3,14 @@ import useProducts from "../hooks/useProduct";
 import ProductCard from "../components/ProductCard";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useCart } from "../context/CartContext"; // IMPORTANTE: pega o carrinho real
+import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 
 export default function ProductsPage() {
   const { products, loading } = useProducts();
-  const { items } = useCart(); // ← número real de itens no carrinho
+  const { items } = useCart();
+  const { user, logout } = useAuth();   // ← FALTAVA ISTO
+
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
 
@@ -25,9 +28,10 @@ export default function ProductsPage() {
   return (
     <>
       {/* HEADER FIXO – igual HiFashion */}
-      <header className="fixed top-0 left-0 right-0 bg-white z-50 shadow-sm border-b">
+      <header className="sticky top-0 left-0 right-0 bg-white z-50 shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
+            
             {/* Logo */}
             <Link to="/" className="text-2xl font-bold text-black">
               HiFashion
@@ -46,6 +50,7 @@ export default function ProductsPage() {
 
             {/* Ícones da direita */}
             <div className="flex items-center gap-6">
+<<<<<<< HEAD
               {/* Usuário (pode virar login depois) */}
               <Link
                 to="/perfil"
@@ -56,6 +61,59 @@ export default function ProductsPage() {
               <i className="pi pi-shopping-cart text-black text-2xl cursor-pointer hover:text-gray-700 transition"></i>
             </Link>
 
+=======
+
+              {/* LOGIN ou PERFIL */}
+              {!user ? (
+                <Link
+                  to="/login"
+                  className="px-4 py-2 border border-gray-800 rounded-full text-sm hover:bg-gray-100 transition"
+                >
+                  Login
+                </Link>
+              ) : (
+                <div className="flex items-center gap-4">
+                  <Link
+                    to="/perfil"
+                    className="w-9 h-9 rounded-full bg-gray-200 hover:bg-gray-300 transition flex items-center justify-center text-xs"
+                    aria-label="Perfil"
+                  >
+                    {user.username?.[0]?.toUpperCase()}
+                  </Link>
+
+                  <button
+                    onClick={logout}
+                    className="text-sm px-3 py-2 border border-red-500 text-red-500 rounded-full hover:bg-red-100 transition"
+                  >
+                    Sair
+                  </button>
+                </div>
+              )}
+
+              {/* CARRINHO */}
+              <Link to="/cart" className="relative group" aria-label="Carrinho">
+                <svg
+                  className="w-9 h-9 text-gray-800 group-hover:text-black transition"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.8}
+                    d="M3 3h2l.4 2M7.5 13h9l3.5-8H6.5M7.5 13L5.2 5M7.5 13l-1.3 5.2c-.4 1.6 1 3 2.7 3h10.8c1.7 0 3.1-1.4 2.7-3l-1.4-5.6M16.5 21a2 2 0 100-4 2 2 0 000 4zm-9 0a2 2 0 100-4 2 2 0 000 4z"
+                  />
+                </svg>
+
+                {items.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-md animate-pulse">
+                    {items.length}
+                  </span>
+                )}
+              </Link>
+
+>>>>>>> 55ba424a62cfcb24f711d1c86b82e1a84b5d1296
             </div>
           </div>
         </div>
@@ -93,4 +151,4 @@ export default function ProductsPage() {
       </main>
     </>
   );
- }
+}

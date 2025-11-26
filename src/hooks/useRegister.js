@@ -1,41 +1,46 @@
+// src/hooks/useRegister.js
 import { useState } from 'react';
+import { getUsers, addUser } from "../services/storage";
+import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { setUser, getUser } from '../services/storage';
 
-export const useRegister = () => {
-  const [formData, setFormData] = useState({ username: '', email: '', password: '' });
+export function useRegister() {
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: ''
+  });
+
   const [error, setError] = useState('');
+  const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setError('');
-  };
+  }
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
+    setError('');
 
-    // já tem usuário no localStorage?
-    const existing = getUser();
-    if (existing) {
-      setError('Já existe um usuário cadastrado nesta máquina');
+    const users = getUsers();
+
+    // Verifica username repetido
+    const exists = users.some(u => u.username === formData.username);
+    if (exists) {
+      setError('Esse nome de usuário já está sendo usado');
       return;
     }
 
-    if (!formData.username || !formData.email || !formData.password) {
-      setError('Preencha todos os campos');
-      return;
-    }
+    // Cria o usuário no storage local
+    addUser(formData);
 
-    // salva
-    setUser(formData);
+    // Faz login automático
+    login(formData);
+
+    // Redireciona
     navigate('/');
-  };
+  }
 
-  return {
-    formData,
-    error,
-    handleChange,
-    handleSubmit
-  };
-};
+  return { formData, error, handleChange, handleSubmit };
+}
