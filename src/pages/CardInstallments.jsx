@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
+import { Toast } from 'primereact/toast';
 
 export default function CardInstallments({ total }) {
   const [number, setNumber] = useState("");
   const [installments, setInstallments] = useState(1);
+  const navigate = useNavigate();
+  const { clearCart } = useCart();
+  const toast = useRef();
 
-  const juros = 0.02; // 2% ao mês
-
+  const juros = 0.02;
   const totalComJuros = total * Math.pow(1 + juros, installments - 1);
   const parcela = totalComJuros / installments;
 
@@ -18,8 +23,24 @@ export default function CardInstallments({ total }) {
     value: i + 1
   }));
 
+  const handlePayment = () => {
+    if (!number || number.length < 16) {
+      toast.current.show({ severity: 'warn', summary: 'Ops', detail: 'Cartão inválido.' });
+      return;
+    }
+
+    toast.current.show({ severity: 'success', summary: 'Pagamento aprovado', detail: 'Compra parcelada realizada!' });
+
+    setTimeout(() => {
+      clearCart();
+      navigate('/order-success');
+    }, 1200);
+  };
+
   return (
     <div>
+      <Toast ref={toast} />
+
       <div className="flex align-items-center gap-2 mb-3">
         <i className="pi pi-credit-card text-3xl" style={{ color: 'var(--primary-color)' }}></i>
         <h2 className="text-2xl font-bold m-0">Pagamento Parcelado</h2>
@@ -98,6 +119,7 @@ export default function CardInstallments({ total }) {
           className="w-full"
           size="large"
           severity="success"
+          onClick={handlePayment}
         />
       </div>
     </div>

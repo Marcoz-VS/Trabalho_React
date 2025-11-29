@@ -6,17 +6,40 @@ import { Tag } from 'primereact/tag';
 import { Rating } from 'primereact/rating';
 import { Divider } from 'primereact/divider';
 import { Badge } from 'primereact/badge';
+import { Toast } from 'primereact/toast';
+import { useRef } from 'react';
 
 export default function ProductDetails({ product, onAddToCart }) {
   const navigate = useNavigate();
+  const toast = useRef(null);
+
+  const handleAdd = () => {
+    onAddToCart(product);
+    toast.current.show({
+      severity: "success",
+      summary: "Adicionado",
+      life: 2500
+    });
+  };
 
   const handleBuyNow = () => {
     onAddToCart(product);
-    navigate("/checkout");
+    toast.current.show({
+      severity: "info",
+      summary: "Indo para checkout",
+      detail: "Produto adicionado. Finalize sua compra.",
+      life: 2200
+    });
+
+    setTimeout(() => navigate("/checkout"), 500);
   };
 
   return (
     <div className="surface-ground" style={{ minHeight: '100vh', padding: '2rem' }}>
+
+      {/* Toast */}
+      <Toast ref={toast} />
+
       <div className="max-w-6xl mx-auto">
         <div className="mb-3">
           <GoBack />
@@ -24,6 +47,7 @@ export default function ProductDetails({ product, onAddToCart }) {
 
         <Card className="shadow-3">
           <div className="grid">
+
             {/* Coluna da Imagem */}
             <div className="col-12 md:col-5">
               <div 
@@ -45,20 +69,15 @@ export default function ProductDetails({ product, onAddToCart }) {
             {/* Coluna das Informações */}
             <div className="col-12 md:col-7">
               <div className="flex flex-column gap-3">
-                {/* Categoria */}
+
                 <div>
-                  <Badge 
-                    value={product.category} 
-                    severity="info"
-                  />
+                  <Badge value={product.category} severity="info" />
                 </div>
 
-                {/* Título */}
                 <h1 className="text-4xl font-bold m-0 line-height-3">
                   {product.title}
                 </h1>
 
-                {/* Rating */}
                 <div className="flex align-items-center gap-3">
                   <Rating 
                     value={product.rating.rate} 
@@ -72,14 +91,12 @@ export default function ProductDetails({ product, onAddToCart }) {
 
                 <Divider />
 
-                {/* Preço */}
                 <div className="flex align-items-center gap-3">
                   <span className="text-5xl font-bold text-primary">
                     R$ {product.price.toFixed(2)}
                   </span>
                 </div>
 
-                {/* Informações Adicionais */}
                 <div className="surface-50 p-3 border-round">
                   <div className="flex flex-column gap-2">
                     <div className="flex align-items-center gap-2 text-color-secondary">
@@ -99,16 +116,17 @@ export default function ProductDetails({ product, onAddToCart }) {
 
                 <Divider />
 
-                {/* Botões de Ação */}
+                {/* Botões */}
                 <div className="flex gap-2 flex-wrap">
                   <Button
                     label="Adicionar ao Carrinho"
                     icon="pi pi-shopping-cart"
-                    onClick={() => onAddToCart(product)}
+                    onClick={handleAdd}
                     className="flex-1"
                     size="large"
                     outlined
                   />
+
                   <Button
                     label="Comprar Agora"
                     icon="pi pi-bolt"
@@ -119,7 +137,6 @@ export default function ProductDetails({ product, onAddToCart }) {
                   />
                 </div>
 
-                {/* Descrição (se houver) */}
                 {product.description && (
                   <>
                     <Divider />
@@ -131,8 +148,10 @@ export default function ProductDetails({ product, onAddToCart }) {
                     </div>
                   </>
                 )}
+
               </div>
             </div>
+
           </div>
         </Card>
       </div>

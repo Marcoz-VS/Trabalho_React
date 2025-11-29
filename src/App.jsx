@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import CartPage from "./pages/CartPage";
 import { useCart } from "./context/CartContext";
 import CheckoutPage from "./pages/CheckoutPage";
+import OrderSuccess from "./pages/OrderSucess";
 import PanelAdministrador from "./pages/PanelAdministrador";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
@@ -14,15 +15,6 @@ export default function App() {
 
   return (
     <div>
-      <header>
-        <Link to="/">Home</Link>
-        <Link to="/cart">Carrinho ({items.length})</Link>
-
-        <Link to="/login">Login</Link>
-        <Link to="/register">Registrar</Link>
-        <Link to="/panel-administrador">Panel Administrador</Link>
-      </header>
-
       <Routes>
         <Route path="/" element={<ProductsPage />} />
         <Route path="/product/:id" element={<ProductDetailsPage />} />
@@ -32,6 +24,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <CheckoutPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/order-success"
+          element={
+            <ProtectedRoute>
+              <OrderSuccess />
             </ProtectedRoute>
           }
         />

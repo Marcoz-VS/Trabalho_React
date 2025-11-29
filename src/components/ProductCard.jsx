@@ -2,86 +2,100 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
-import { Tag } from 'primereact/tag';
+import { Toast } from 'primereact/toast';
+import { useRef } from "react";
 
 export default function ProductCard({ product }) {
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const toast = useRef();
 
   const handleAddToCart = (e) => {
     e.preventDefault();
     addToCart(product);
+
+    toast.current.show({
+      severity: 'success',
+      summary: 'Adicionado',
+      life: 2000
+    });
   };
 
   const handleBuyNow = (e) => {
     e.preventDefault();
     addToCart(product);
-    navigate('/checkout');
+
+    toast.current.show({
+      severity: 'info',
+      summary: 'Indo para o checkout',
+      life: 1500
+    });
+
+    setTimeout(() => navigate('/checkout'), 300);
   };
 
+  const header = (
+    <img
+      src={product.image}
+      alt={product.title}
+      style={{
+        width: "100%",
+        height: "200px",
+        objectFit: "contain",
+        padding: "10px"
+      }}
+    />
+  );
+
+  const footer = (
+    <div className="flex flex-column mt-3" style={{ gap: "8px" }}>
+      <Button
+        label="Adicionar ao carrinho"
+        icon="pi pi-shopping-cart"
+        className="p-button-sm p-button-outlined w-full"
+        onClick={handleAddToCart}
+      />
+
+      <Button
+        label="Comprar Agora"
+        icon="pi pi-credit-card"
+        className="p-button-sm w-full"
+        onClick={handleBuyNow}
+      />
+    </div>
+  );
+
+
   return (
-    <Card className="shadow-2 hover:shadow-4 transition-duration-200 h-full flex flex-column">
-      <Link 
-        to={`/product/${product.id}`} 
-        style={{ textDecoration: 'none', color: 'inherit' }}
-        className="flex flex-column flex-1"
+    <>
+      <Toast ref={toast} />
+
+      <Card
+        header={header}
+        footer={footer}
+        className="shadow-2 border-round-lg"
+        style={{
+          width: "260px",
+          display: "flex",
+          flexDirection: "column"
+        }}
       >
-        {/* Imagem do Produto */}
-        <div className="flex align-items-center justify-content-center mb-3" style={{ height: '200px' }}>
-          <img
-            src={product.image}
-            alt={product.title}
-            style={{ 
-              width: "100%", 
-              height: "200px", 
-              objectFit: "contain",
-              transition: 'transform 0.3s'
-            }}
-            className="hover:scale-105"
-          />
-        </div>
-
-        {/* Título do Produto */}
-        <h3 
-          className="text-lg font-semibold mb-2 line-height-3" 
-          style={{ 
-            minHeight: '3rem',
-            overflow: 'hidden',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical'
-          }}
+        <Link
+          to={`/product/${product.id}`}
+          style={{ textDecoration: 'none', color: 'inherit' }}
         >
-          {product.title}
-        </h3>
+          <h3
+            className="mt-2 mb-2"
+            style={{ fontSize: "1rem", fontWeight: "600", minHeight: "48px" }}
+          >
+            {product.title}
+          </h3>
 
-        {/* Preço */}
-        <div className="flex align-items-center gap-2 mb-3">
-          <Tag 
-            value={`R$ ${product.price.toFixed(2)}`} 
-            severity="success"
-            style={{ fontSize: '1.1rem', fontWeight: 'bold' }}
-          />
-        </div>
-      </Link>
-
-      {/* Botões */}
-      <div className="flex flex-column gap-2 mt-auto">
-        <Button
-          label="Adicionar ao Carrinho"
-          icon="pi pi-shopping-cart"
-          onClick={handleAddToCart}
-          className="w-full"
-          outlined
-        />
-        <Button
-          label="Comprar Agora"
-          icon="pi pi-bolt"
-          onClick={handleBuyNow}
-          className="w-full"
-          severity="success"
-        />
-      </div>
-    </Card>
+          <p style={{ margin: 0, fontSize: "1rem" }}>
+            <strong>Preço:</strong> R${product.price.toFixed(2)}
+          </p>
+        </Link>
+      </Card>
+    </>
   );
 }

@@ -1,4 +1,3 @@
-// src/hooks/useRegister.js
 import { useState } from 'react';
 import { getUsers, addUser } from "../services/storage";
 import { useAuth } from '../context/AuthContext';
@@ -25,20 +24,23 @@ export function useRegister() {
 
     const users = getUsers();
 
-    // Verifica username repetido
     const exists = users.some(u => u.username === formData.username);
     if (exists) {
       setError('Esse nome de usuário já está sendo usado');
       return;
     }
 
-    // Cria o usuário no storage local
-    addUser(formData);
+    // monta o usuário completo
+    const newUser = {
+      id: Date.now(),
+      username: formData.username,
+      email: formData.email,
+      password: formData.password,
+      role: "user"
+    };
 
-    // Faz login automático
-    login(formData);
-
-    // Redireciona
+    const createdUser = addUser(newUser);
+    login(createdUser);
     navigate('/');
   }
 
