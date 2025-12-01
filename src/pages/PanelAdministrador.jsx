@@ -34,7 +34,13 @@ export default function PanelAdministrador() {
   async function fetchProducts() {
     try {
       const res = await api.get("/products");
-      setProductos(res.data);
+      setProductos(
+        res.data.map((p) => ({
+          ...p,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }))
+      );
     } catch (err) {
       toast.current?.show({
         severity: 'error',
@@ -76,7 +82,7 @@ export default function PanelAdministrador() {
 
     try {
       if (form.id) {
-        await api.put(`/products/${form.id}`, payload);
+        await api.put(`/products/${form.id}`, { ...payload, updatedAt: new Date() });
         toast.current?.show({
           severity: 'success',
           summary: 'Sucesso',
@@ -84,7 +90,7 @@ export default function PanelAdministrador() {
           life: 3000
         });
       } else {
-        await api.post("/products", payload);
+        await api.post("/products", { ...payload, createdAt: new Date() });
         toast.current?.show({
           severity: 'success',
           summary: 'Sucesso',
