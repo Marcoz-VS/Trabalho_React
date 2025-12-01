@@ -194,12 +194,16 @@ export default function PanelAdministrador() {
     return `R$ ${rowData.price.toFixed(2)}`;
   };
 
+  const dateBodyTemplate = (rowData, field) => {
+    return new Date(rowData[field]).toLocaleString();
+  };
+
   return (
     <div className="surface-ground" style={{ minHeight: '100vh', padding: '2rem' }}>
       <Toast ref={toast} />
       <ConfirmDialog />
 
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-8xl mx-auto">
         <div className="flex align-items-center gap-3 mb-4">
           <i className="pi pi-cog text-4xl" style={{ color: 'var(--primary-color)' }}></i>
           <h1 className="text-4xl font-bold m-0">Painel Administrativo</h1>
@@ -322,11 +326,7 @@ export default function PanelAdministrador() {
             sortOrder={-1}
           >
             <Column field="id" header="ID" sortable style={{ width: '5%' }} />
-            <Column body={imageBodyTemplate} header="Imagem" style={{ width: '10%' }} />
-            <Column field="title" header="Título" sortable style={{ width: '35%' }} />
-            <Column field="category" header="Categoria" sortable style={{ width: '20%' }} />
-            <Column body={priceBodyTemplate} header="Preço" sortable style={{ width: '15%' }} />
-            <Column body={actionBodyTemplate} header="Ações" style={{ width: '15%' }} />
+       
           </DataTable>
         </Card>
       </div>
