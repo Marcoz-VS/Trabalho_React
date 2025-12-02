@@ -35,19 +35,24 @@ export default function Header({ search, setSearch, filter, setFilter }) {
       >
         <div className="max-w-7xl mx-auto px-6">
           <div
-            className="flex items-center justify-between"
+            className="flex items-center justify-center relative"
             style={{ height: "70px" }}
           >
 
             <Link
               to="/"
-              className="text-5xl font-light tracking-widest text-black"
-              style={{ letterSpacing: "0.32em" }}
+              className="text-5xl font-light tracking-widest text-black absolute left-1/2 transform -translate-x-1/2"
+              style={{ letterSpacing: "0.32em",
+                  position: "absolute",
+                  left: "50%",
+                  top: "50%",
+                  transform: "translate(-50%, -50%)"
+               }}
             >
               HIFASHION
             </Link>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 absolute right-0">
 
               <Link to="/cart" className="relative flex items-center">
                 <Button icon="pi pi-shopping-bag" text rounded severity="secondary" className="text-xl" />
