@@ -38,7 +38,7 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #514f4f;
 }
 button:focus,
 button:focus-visible {
@@ -80,3 +80,45 @@ body {
     background-color: #f9f9f9;
   }
 }
+
+
+:root {
+  --minha-cor-principal: #443f76;        /* ← TROQUE AQUI PELA SUA COR */
+  --minha-cor-principal-escura: #383463;  /* cor um pouco mais escura pro hover (opcional) */
+}
+
+/* Botões cheios (ex: "Comprar Agora") – viram a sua cor */
+.p-button:not(.p-button-outlined):not(.p-button-text):not(.p-button-secondary) {
+  background: var(--minha-cor-principal) !important;
+  border-color: var(--minha-cor-principal) !important;
+  color: #ffffff !important;
+}
+
+.p-button:not(.p-button-outlined):not(.p-button-text):not(.p-button-secondary):hover {
+  background: var(--minha-cor-principal-escura) !important;
+  border-color: var(--minha-cor-principal-escura) !important;
+}
+
+/* Botões outline (ex: "Adicionar ao carrinho") – borda e texto na sua cor */
+.p-button.p-button-outlined {
+  border-color: var(--minha-cor-principal) !important;
+  color: var(--minha-cor-principal) !important;
+}
+
+.p-button.p-button-outlined:hover {
+  background: color-mix(in srgb, var(--minha-cor-principal) 10%, transparent) !important;
+  color: var(--minha-cor-principal) !important;
+}
+
+/* Outros elementos que usam cor primária (badges, tags, links do PrimeReact, etc.) */
+.p-link,
+.p-tag,
+.p-badge,
+.p-highlight,
+.p-steps .p-steps-item.p-highlight .p-steps-number,
+.p-paginator .p-highlight {
+  background: var(--minha-cor-principal) !important;
+  color: white !important;
+  border-color: var(--minha-cor-principal) !important;
+}
+

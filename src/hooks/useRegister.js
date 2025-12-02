@@ -29,7 +29,11 @@ export function useRegister() {
       setError('Esse nome de usuário já está sendo usado');
       return;
     }
-
+    if (formData.password.length < 3) {
+      setError('A senha deve ter pelo menos 3 caracteres');
+      return;
+    }
+    
     // monta o usuário completo
     const newUser = {
       id: Date.now(),

@@ -98,6 +98,7 @@ function Register() {
                                 weakLabel="Fraca"
                                 mediumLabel="Média"
                                 strongLabel="Forte"
+                                minLength={3}
                                 required
                             />
                         </div>

@@ -53,6 +53,7 @@ export default function ProductCard({ product }) {
         label="Adicionar ao carrinho"
         icon="pi pi-shopping-cart"
         className="p-button-sm p-button-outlined w-full"
+        
         onClick={handleAddToCart}
       />
 
