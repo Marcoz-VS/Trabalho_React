@@ -148,7 +148,7 @@ export default function PanelAdministrador() {
       });
       setProductos(productos.filter(p => p.id !== id));
     } catch (err) {
-      console.log("error);
+      console.log(err);
       toast.current?.show({
         severity: 'error',
         summary: 'Erro',
@@ -327,7 +327,11 @@ export default function PanelAdministrador() {
             sortOrder={-1}
           >
             <Column field="id" header="ID" sortable style={{ width: '5%' }} />
-            
+            <Column header="Imagem" body={imageBodyTemplate} style={{ width: '10%' }} />
+            <Column field="title" header="Título" sortable style={{ width: '35%' }} />
+            <Column field="price" header="Preço" body={priceBodyTemplate} sortable style={{ width: '15%' }} />
+            <Column field="category" header="Categoria" sortable style={{ width: '20%' }} />
+            <Column header="Ações" body={actionBodyTemplate} style={{ width: '15%' }} />
           </DataTable>
         </Card>
       </div>
