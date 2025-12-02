@@ -1,16 +1,77 @@
-# React + Vite
+# E-commerce Minimalista (MVP) – React + FakeStoreAPI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este projeto é um protótipo de e-commerce minimalista desenvolvido como MVP para apresentação a investidores. A aplicação consome dados da FakeStoreAPI para simular produtos, autenticação e operações administrativas, servindo como prova de conceito enquanto o back-end oficial não existe.
 
-Currently, two official plugins are available:
+O objetivo principal é demonstrar domínio das práticas modernas do ecossistema React, incluindo componentização, integração com APIs, roteamento, gerenciamento de estado e usabilidade.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 📌 Objetivos do Projeto
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Criar um e-commerce funcional utilizando React.
+- Consumir dados da FakeStoreAPI para simular:
+  - Listagem de produtos  
+  - Detalhes de produto  
+  - Login  
+  - Carrinho  
+  - Área administrativa com CRUD  
+- Demonstrar boas práticas de design, responsividade e arquitetura front-end.
+- Entregar um MVP pronto para testes, apresentação e iterações futuras.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## ✨ Funcionalidades
+
+### **Área do Usuário**
+- Listagem de produtos.
+- Filtro por categorias.
+- Página de detalhes.
+- Carrinho com itens adicionados e removidos.
+- Login simulado via FakeStoreAPI.
+
+### **Área Administrativa**
+- Acesso restrito para usuários logados.
+- CRUD de produtos (simulado no front-end).
+- Interface simples e funcional para testes de fluxo.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- React  
+- React Router  
+- Context API / Zustand / Redux (dependendo da implementação)  
+- FakeStoreAPI  
+- Axios / Fetch API  
+- CSS Modules / Styled Components / Tailwind  
+- Vite / Create React App  
+
+---
+
+## 📂 Estrutura do Projeto (exemplo)
+
+src/
+├── components/
+├── pages/
+├── services/
+├── context/
+├── hooks/
+├── App.jsx
+└── main.jsx
+
+
+---
+
+## ▶️ Como Executar
+
+**Clone o repositório**
+```bash
+git clone git@github.com:Marcoz-VS/Trabalho_React.git
+
+cd trabalho_final
+
+npm install
+
+npm run dev
+
+http://localhost:5173
