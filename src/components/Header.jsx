@@ -41,7 +41,7 @@ export default function Header({ search, setSearch, filter, setFilter }) {
 
             <Link
               to="/"
-              className="text-5xl font-light tracking-widest text-black absolute left-1/2 transform -translate-x-1/2"
+              className="text-5xl font-light tracking-widest text-black header-title"
               style={{ letterSpacing: "0.32em",
                   position: "absolute",
                   left: "50%",
@@ -52,7 +52,7 @@ export default function Header({ search, setSearch, filter, setFilter }) {
               HIFASHION
             </Link>
 
-      <div className="flex items-center gap-4 absolute right-0">
+      <div className="flex items-center gap-4 absolute right-0 header-icons">
 
               <Link to="/cart" className="relative flex items-center">
                 <Button icon="pi pi-shopping-bag" text rounded severity="secondary" className="text-xl" />
@@ -215,15 +215,36 @@ export default function Header({ search, setSearch, filter, setFilter }) {
         </div>
       </Sidebar>
 
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(-10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
-        }
-      `}</style>
+     <style>{`
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out;
+          }
+
+          /* MOBILE RESPONSIVO */
+          @media (max-width: 768px) {
+
+            /* Título menor e sem quebrar */
+            .header-title {
+              font-size: 2rem !important;
+              white-space: nowrap;
+            }
+
+            /* Header com mais altura no mobile */
+            .header-container {
+              height: 60px !important;
+            }
+
+            /* Ícones menores para caber tudo */
+            .header-icons button {
+              font-size: 1.2rem !important;
+            }
+          }
+        `}</style>
+
     </>
   );
 }
