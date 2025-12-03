@@ -1,11 +1,31 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer, useEffect } from "react";
+import { useAuth } from "./AuthContext.jsx";
+import {
+  getCartFor,
+  saveCartFor,
+  getGuestCart,
+  saveGuestCart
+} from "../services/storage";
 
 const CartContext = createContext();
 
 const initialState = {
   items: []
 };
+
+function mergeCarts(a = [], b = []) {
+  const map = new Map();
+  [...a, ...b].forEach(item => {
+    const existing = map.get(item.id);
+    if (existing) {
+      map.set(item.id, { ...existing, quantity: existing.quantity + (item.quantity || 1) });
+    } else {
+      map.set(item.id, { ...item, quantity: item.quantity || 1 });
+    }
+  });
+  return Array.from(map.values());
+}
 
 function cartReducer(state, action) {
   switch (action.type) {
@@ -60,6 +80,14 @@ function cartReducer(state, action) {
       };
     }
 
+    // set completo (usado ao trocar usuário / carregar do storage)
+    case "SET": {
+      return {
+        ...state,
+        items: action.payload || []
+      };
+    }
+
     default:
       return state;
   }
@@ -67,6 +95,39 @@ function cartReducer(state, action) {
 
 export default function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
+  const { user } = useAuth();
+
+  // Carrega/mescla o carrinho ao iniciar e ao mudar de usuário
+  useEffect(() => {
+    if (user) {
+      const userCart = getCartFor(user.id) || [];
+      const guestCart = getGuestCart() || [];
+
+      if (guestCart.length > 0) {
+        // mescla guest -> usuário e limpa guest
+        const merged = mergeCarts(userCart, guestCart);
+        dispatch({ type: "SET", payload: merged });
+        saveCartFor(user.id, merged);
+        saveGuestCart([]);
+      } else {
+        dispatch({ type: "SET", payload: userCart });
+      }
+    } else {
+      // usuário deslogado -> carrega guest
+      const guest = getGuestCart() || [];
+      dispatch({ type: "SET", payload: guest });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  // Persiste sempre que items mudam (salva para user ou guest)
+  useEffect(() => {
+    if (user) {
+      saveCartFor(user.id, state.items);
+    } else {
+      saveGuestCart(state.items);
+    }
+  }, [state.items, user]);
 
   const addToCart = product => {
     dispatch({ type: "ADD", payload: product });
