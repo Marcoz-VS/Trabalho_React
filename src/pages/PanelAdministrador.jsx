@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/set-state-in-effect */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import api from "../services/api";
 import { Card } from 'primereact/card';
 import { InputText } from 'primereact/inputtext';
@@ -23,7 +21,7 @@ export default function PanelAdministrador() {
     categoria: "",
     imagem: "",
   });
-  const toast = React.useRef(null);
+  const toast = useRef(null);
 
   const categorias = [
     { label: "Selecione a categoria", value: "" },
@@ -33,27 +31,28 @@ export default function PanelAdministrador() {
     { label: "Roupas Femininas", value: "women's clothing" }
   ];
 
-  async function fetchProducts() {
-    try {
-      const res = await api.get("/products");
-      setProductos(
-        res.data.map((p) => ({
-          ...p,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        }))
-      );
-    } catch (err) {
-      toast.current?.show({
-        severity: 'error',
-        summary: 'Erro',
-        detail: 'Erro ao carregar produtos',
-        life: 3000
-      });
-    }
-  }
-
   useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const res = await api.get("/products");
+        setProductos(
+          res.data.map((p) => ({
+            ...p,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          }))
+        );
+      } catch (err) {
+        console.log(err);
+        toast.current?.show({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Erro ao carregar produtos',
+          life: 3000
+        });
+      }
+    }
+
     fetchProducts();
   }, []);
 
@@ -84,7 +83,7 @@ export default function PanelAdministrador() {
 
     try {
       if (form.id) {
-        await api.put(`/products/${form.id}`, { ...payload, updatedAt: new Date() });
+        await api.put(`/products/${form.id}`, payload);
         toast.current?.show({
           severity: 'success',
           summary: 'Sucesso',
@@ -92,7 +91,7 @@ export default function PanelAdministrador() {
           life: 3000
         });
       } else {
-        await api.post("/products", { ...payload, createdAt: new Date() });
+        await api.post("/products", payload);
         toast.current?.show({
           severity: 'success',
           summary: 'Sucesso',
@@ -102,8 +101,11 @@ export default function PanelAdministrador() {
       }
 
       setForm({ id: null, titulo: "", preco: null, categoria: "", imagem: "" });
-      fetchProducts();
+      const res = await api.get("/products");
+      setProductos(res.data.map((p) => ({ ...p, createdAt: new Date(), updatedAt: new Date() })));
+
     } catch (err) {
+      console.log(err);
       toast.current?.show({
         severity: 'error',
         summary: 'Erro',
@@ -144,8 +146,9 @@ export default function PanelAdministrador() {
         detail: 'Produto excluído com sucesso',
         life: 3000
       });
-      fetchProducts();
+      setProductos(productos.filter(p => p.id !== id));
     } catch (err) {
+      console.log(err);
       toast.current?.show({
         severity: 'error',
         summary: 'Erro',
@@ -184,9 +187,9 @@ export default function PanelAdministrador() {
 
   const imageBodyTemplate = (rowData) => {
     return (
-      <img 
-        src={rowData.image} 
-        alt={rowData.title} 
+      <img
+        src={rowData.image}
+        alt={rowData.title}
         style={{ width: '50px', height: '50px', objectFit: 'contain' }}
       />
     );
@@ -201,7 +204,7 @@ export default function PanelAdministrador() {
       <Toast ref={toast} />
       <ConfirmDialog />
 
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-8xl mx-auto">
         <div className="flex align-items-center gap-3 mb-4">
           <i className="pi pi-cog text-4xl" style={{ color: 'var(--primary-color)' }}></i>
           <h1 className="text-4xl font-bold m-0">Painel Administrativo</h1>
@@ -324,11 +327,11 @@ export default function PanelAdministrador() {
             sortOrder={-1}
           >
             <Column field="id" header="ID" sortable style={{ width: '5%' }} />
-            <Column body={imageBodyTemplate} header="Imagem" style={{ width: '10%' }} />
+            <Column header="Imagem" body={imageBodyTemplate} style={{ width: '10%' }} />
             <Column field="title" header="Título" sortable style={{ width: '35%' }} />
+            <Column field="price" header="Preço" body={priceBodyTemplate} sortable style={{ width: '15%' }} />
             <Column field="category" header="Categoria" sortable style={{ width: '20%' }} />
-            <Column body={priceBodyTemplate} header="Preço" sortable style={{ width: '15%' }} />
-            <Column body={actionBodyTemplate} header="Ações" style={{ width: '15%' }} />
+            <Column header="Ações" body={actionBodyTemplate} style={{ width: '15%' }} />
           </DataTable>
         </Card>
       </div>
