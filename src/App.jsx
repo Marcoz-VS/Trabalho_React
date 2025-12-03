@@ -4,14 +4,12 @@ import ProductDetailsPage from "./pages/ProductDetailsPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import CartPage from "./pages/CartPage";
-import { useCart } from "./context/CartContext";
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderSuccess from "./pages/OrderSucess";
 import PanelAdministrador from "./pages/PanelAdministrador";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 export default function App() {
-  const { items } = useCart();
 
   return (
     <div>
