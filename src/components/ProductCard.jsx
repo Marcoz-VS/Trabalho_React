@@ -17,7 +17,7 @@ export default function ProductCard({ product }) {
     toast.current.show({
       severity: 'success',
       summary: 'Adicionado',
-      life: 2000
+      life: 1000
     });
   };
 
